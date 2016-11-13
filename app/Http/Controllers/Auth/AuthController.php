@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Repositories\UserRepositoryInterface;
-use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use App\Http\Requests\UserRegisterRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -39,19 +40,10 @@ class AuthController extends Controller
         $this->user = $user;
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function postRegister(UserRegisterRequest $request)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
+        Auth::login($this->create($request->all()));
+        return redirect($this->redirectPath());
     }
 
     /**
