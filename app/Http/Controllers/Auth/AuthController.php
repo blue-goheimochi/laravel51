@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Auth\AuthManager;
+use App\Services\UserService;
 
 class AuthController extends Controller
 {
@@ -37,31 +37,16 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct(AuthManager $auth, UserRepositoryInterface $user)
+    public function __construct(AuthManager $auth)
     {
         $this->middleware('guest', ['except' => 'getLogout']);
         $this->auth = $auth;
-        $this->user = $user;
     }
 
-    public function postRegister(UserRegisterRequest $request)
+    public function postRegister(UserRegisterRequest $request, UserService $userService)
     {
-        $this->auth->login($this->create($request->all()));
+        $user = $userService->registerUser($request->all());
+        $this->auth->login($user);
         return redirect($this->redirectPath());
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
-    {
-        return $this->user->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
     }
 }
