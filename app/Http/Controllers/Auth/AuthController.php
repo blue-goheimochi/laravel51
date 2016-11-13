@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\DataAccess\Eloquent\User;
+use App\Repositories\UserRepositoryInterface;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -11,6 +11,9 @@ class AuthController extends Controller
 {
     protected $redirectPath = '/';
     protected $loginPath    = '/login';
+
+    /** @var UserRepositoryInterface */
+    protected $user;
 
     /*
     |--------------------------------------------------------------------------
@@ -30,9 +33,10 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $user)
     {
         $this->middleware('guest', ['except' => 'getLogout']);
+        $this->user = $user;
     }
 
     /**
@@ -58,7 +62,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        return $this->user->create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
