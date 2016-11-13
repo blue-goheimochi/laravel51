@@ -9,6 +9,8 @@ class PasswordController extends Controller
 {
     protected $redirectPath = '/';
 
+    protected $subject = 'パスワード再設定のご案内';
+
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
