@@ -22,3 +22,9 @@ Route::get('login', 'Auth\AuthController@getLogin')->name('login');
 Route::post('login', 'Auth\AuthController@postLogin');
 
 Route::get('logout', 'Auth\AuthController@getLogout')->name('logout');
+
+Route::get('password/forgot', 'Auth\PasswordController@getEmail')->name('password-forgot');
+Route::post('password/forgot', 'Auth\PasswordController@postEmail');
+
+Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('password/reset', 'Auth\PasswordController@postReset')->name('password-reset');
