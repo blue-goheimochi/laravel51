@@ -6,12 +6,15 @@ use App\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\Http\Requests\UserRegisterRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\AuthManager;
 
 class AuthController extends Controller
 {
     protected $redirectPath = '/';
     protected $loginPath    = '/login';
+
+    /** @var AuthManager */
+    protected $auth;
 
     /** @var UserRepositoryInterface */
     protected $user;
@@ -34,15 +37,16 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct(UserRepositoryInterface $user)
+    public function __construct(AuthManager $auth, UserRepositoryInterface $user)
     {
         $this->middleware('guest', ['except' => 'getLogout']);
+        $this->auth = $auth;
         $this->user = $user;
     }
 
     public function postRegister(UserRegisterRequest $request)
     {
-        Auth::login($this->create($request->all()));
+        $this->auth->login($this->create($request->all()));
         return redirect($this->redirectPath());
     }
 
