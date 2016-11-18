@@ -28,3 +28,8 @@ Route::post('password/forgot', 'Auth\PasswordController@postEmail');
 
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset')->name('password-reset');
+
+Route::get('topic/new', 'TopicController@getNewTopic')->middleware('auth')->name('new-topic');
+Route::post('topic/new', 'TopicController@postNewTopic')->middleware('auth');
+
+Route::get('topic/{id}', 'TopicController@getTopic');
