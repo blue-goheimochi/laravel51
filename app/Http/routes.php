@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'IndexController@getIndex')->name('index');
 
 Route::get('register', 'Auth\AuthController@getRegister')->name('register');
 Route::post('register', 'Auth\AuthController@postRegister');
