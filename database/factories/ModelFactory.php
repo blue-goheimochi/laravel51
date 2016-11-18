@@ -19,3 +19,11 @@ $factory->define(App\DataAccess\Eloquent\User::class, function ($faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\DataAccess\Eloquent\Topic::class, function (Faker\Generator $faker) {
+    return [
+        'title'  => $faker->sentence(30),
+        'body'   => $faker->text(),
+        'status' => 1,
+    ];
+});
