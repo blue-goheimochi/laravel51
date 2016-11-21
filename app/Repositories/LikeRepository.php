@@ -18,4 +18,9 @@ class LikeRepository implements LikeRepositoryInterface
     {
         return $this->eloquent->create($params);
     }
+
+    public function delete(int $user_id, int $topic_id)
+    {
+        return $this->eloquent->where('user_id', $user_id)->where('topic_id', $topic_id)->delete();
+    }
 }
