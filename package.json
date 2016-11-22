@@ -4,6 +4,7 @@
     "bootstrap": "^4.0.0-alpha.4",
     "gulp": "^3.8.8",
     "laravel-elixir": "^1.0.0",
+    "laravel-elixir-webpack-official": "^1.0.9",
     "tether": "^1.3.7"
   }
 }
