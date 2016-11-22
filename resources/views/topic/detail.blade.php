@@ -29,8 +29,18 @@
     <div class="col-md-12">
       <div class="main">
         <p class="body">{!! nl2br(e($topic->body)) !!}</p>
+        <div class="btn-like-wrap clearfix">
+          <button type="button" class="btn btn-secondary btn-like"><i class="fa fa-thumbs-o-up fa-fw" aria-hidden="true"></i> いいね！</button>
+          <div class="balloon"><p>{{ $topic->likes->count() }}</p></div>
+        </div>
       </div>
     </div>
+    <form action="/topic/like" method="post">
+    {{ csrf_field() }}
+    <input type="hidden" name="_method" value="PUT">
+    <input type="text" name="topic_id" value="">
+    <input type="submit" value="submit">
+    </form>
   </div>
 </div>
 @endsection

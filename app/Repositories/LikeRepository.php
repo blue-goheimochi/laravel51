@@ -16,7 +16,7 @@ class LikeRepository implements LikeRepositoryInterface
 
     public function create(array $params)
     {
-        return $this->eloquent->create($params);
+        return $this->eloquent->firstOrCreate($params);
     }
 
     public function delete(int $user_id, int $topic_id)

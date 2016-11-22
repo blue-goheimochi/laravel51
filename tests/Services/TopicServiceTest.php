@@ -16,7 +16,8 @@ class TopicServiceTest extends \TestCase
     {
         parent::setUp();
         $this->service = new \App\Services\TopicService(
-            new StubTopicServiceRepository
+            new StubTopicServiceRepository,
+            new StubLikeServiceRepository
         );
     }
 
@@ -44,6 +45,25 @@ class TopicServiceTest extends \TestCase
 
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $topics);
         $this->assertEquals(5, $topics->count());
+    }
+
+    public function testCreateLike()
+    {
+        $user_id  = 1;
+        $topic_id = 1;
+        $like = $this->service->createLike($user_id, $topic_id);
+
+        $this->assertInstanceOf('App\DataAccess\Eloquent\Like', $like);
+    }
+
+    public function testDeleteLike()
+    {
+        $user_id  = 1;
+        $topic_id = 1;
+        $result = $this->service->deleteLike($user_id, $topic_id);
+        
+        $this->assertInternalType('int', $result);
+        $this->assertEquals(1, $result);
     }
 }
 
@@ -77,5 +97,27 @@ class StubTopicServiceRepository implements \App\Repositories\TopicRepositoryInt
     public function getNewTopics(int $count)
     {
         return factory(\App\DataAccess\Eloquent\Topic::class, $count)->make();
+    }
+}
+
+class StubLikeServiceRepository implements \App\Repositories\LikeRepositoryInterface
+{
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function create(array $params)
+    {
+        return factory(\App\DataAccess\Eloquent\Like::class)->make($params);
+    }
+
+    /**
+     * @param int $user_id
+     * @param int $topic_id
+     * @return int
+     */
+    public function delete(int $user_id, int $topic_id)
+    {
+        return 1;
     }
 }

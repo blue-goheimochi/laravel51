@@ -27,3 +27,10 @@ $factory->define(App\DataAccess\Eloquent\Topic::class, function (Faker\Generator
         'status' => 1,
     ];
 });
+
+$factory->define(App\DataAccess\Eloquent\Like::class, function (Faker\Generator $faker) {
+    return [
+        'user_id'  => $faker->randomDigit(),
+        'topic_id' => $faker->randomDigit(),
+    ];
+});

@@ -13,7 +13,7 @@ interface LikeRepositoryInterface
     /**
      * @param int $user_id
      * @param int $topic_id
-     * @return mixed
+     * @return int
      */
-    public function delete(array $params);
+    public function delete(int $user_id, int $topic_id);
 }
