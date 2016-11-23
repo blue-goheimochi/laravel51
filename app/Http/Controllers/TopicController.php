@@ -33,55 +33,55 @@ class TopicController extends Controller
         $this->user  = $user;
         $this->topic = $topic;
     }
-    
+
     public function getTopic(int $id, TopicService $topicService)
     {
         $topic = $topicService->getTopic($id);
         return view('topic.detail', ['topic' => $topic]);
     }
-    
+
     public function getNewTopic()
     {
         return view('topic.new');
     }
-    
+
     public function postNewTopic(TopicCreateRequest $request, TopicService $topicService)
     {
         $inputs = $request->all();
         $user   = $this->auth->user();
-        
+
         $params = [
             'user_id' => $user->id,
             'title'   => $inputs['title'],
             'body'    => $inputs['body'],
         ];
         $newTopic = $this->topic->create($params);
-        
+
         return Redirect::to('/topic/' . $newTopic->id)->with('status', 'トピックが投稿されました');
     }
-    
+
     public function getCompleteTopic($id)
     {
         return view('topic.complete', ['id' => $id]);
     }
-    
+
     public function createLike(LikeCreateDeleteRequest $request, TopicService $topicService)
     {
         $inputs = $request->all();
         $user   = $this->auth->user();
-        
+
         $like = $topicService->createLike($user->id, $inputs['topic_id']);
-        
+
         return $like->toJson();
     }
-    
+
     public function deleteLike(LikeCreateDeleteRequest $request, TopicService $topicService)
     {
-        //$inputs = $request->all();
+        $inputs = $request->all();
         $user   = $this->auth->user();
-        
+
         $like = $topicService->deleteLike($user->id, 1);
-        
-        return $like->toJson();
+
+        return $like;
     }
 }

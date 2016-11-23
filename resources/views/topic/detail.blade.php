@@ -30,42 +30,19 @@
       <div class="main">
         <p class="body">{!! nl2br(e($topic->body)) !!}</p>
         <div class="btn-like-wrap clearfix">
-          <button type="button" class="btn btn-secondary btn-like"><i class="fa fa-thumbs-o-up fa-fw" aria-hidden="true"></i> いいね！</button>
-          <div class="balloon"><p>{{ $topic->likes->count() }}</p></div>
+          <form id="btn-like-wrap">
+            <like-btn></like-btn>
+          </form>
         </div>
       </div>
     </div>
-    <form action="/topic/like" method="post">
-    {{ csrf_field() }}
-    <input type="hidden" name="_method" value="PUT">
-    <input type="text" name="topic_id" value="">
-    <input type="submit" value="submit">
-    </form>
-    
-    <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
   </div>
+  <script type="text/x-template" id="like-btn">
+    <div>
+    <button type="button" class="btn btn-secondary btn-like" v-on:click="submit"><i class="fa fa-thumbs-o-up fa-fw" aria-hidden="true"></i> いいね！</button>
+    <div class="balloon"><p>{{ $topic->likes->count() }}</p></div>
 </div>
-
-  </div>
+  </script>
+  <input type="hidden" name="topic_id" id="topic_id" value="{{ $topic->id }}">
 </div>
 @endsection
