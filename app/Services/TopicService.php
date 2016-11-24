@@ -84,4 +84,14 @@ class TopicService
         $like = $this->like->delete($user_id, $topic_id);
         return $like;
     }
+
+    /**
+     * @param int $user_id
+     * @param int $topic_id
+     * @return bool
+     */
+    public function isLiked(int $user_id, int $topic_id)
+    {
+        return $this->like->isLiked($user_id, $topic_id);
+    }
 }

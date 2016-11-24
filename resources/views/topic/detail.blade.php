@@ -29,20 +29,12 @@
     <div class="col-md-12">
       <div class="main">
         <p class="body">{!! nl2br(e($topic->body)) !!}</p>
-        <div class="btn-like-wrap clearfix">
-          <form id="btn-like-wrap">
-            <like-btn></like-btn>
-          </form>
+        <div class="btn-like-wrap clearfix" id="btn-like-wrap">
+          <btn-like count="{{ $topic->likes->count() }}" like="{{ $isLiked }}"></btn-like>
         </div>
       </div>
     </div>
   </div>
-  <script type="text/x-template" id="like-btn">
-    <div>
-    <button type="button" class="btn btn-secondary btn-like" v-on:click="submit"><i class="fa fa-thumbs-o-up fa-fw" aria-hidden="true"></i> いいね！</button>
-    <div class="balloon"><p>{{ $topic->likes->count() }}</p></div>
-</div>
-  </script>
   <input type="hidden" name="topic_id" id="topic_id" value="{{ $topic->id }}">
 </div>
 @endsection

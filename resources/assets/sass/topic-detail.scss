@@ -114,6 +114,10 @@
   float: left;
 }
 
+#topic-detail .btn-like-wrap .btn-like:focus {
+  outline: none;
+}
+
 #topic-detail .btn-like-wrap .balloon {
   float: left;
   border: 1px solid #CCCCCC;

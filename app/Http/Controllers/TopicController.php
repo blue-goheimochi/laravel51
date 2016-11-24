@@ -37,7 +37,14 @@ class TopicController extends Controller
     public function getTopic(int $id, TopicService $topicService)
     {
         $topic = $topicService->getTopic($id);
-        return view('topic.detail', ['topic' => $topic]);
+        
+        $user = $this->auth->user();
+        $isLiked = false;
+        if( !is_null($user) ) {
+          $isLiked = $topicService->isLiked($user->id, $id);
+        }
+        
+        return view('topic.detail', ['topic' => $topic, 'isLiked' => $isLiked]);
     }
 
     public function getNewTopic()
@@ -80,7 +87,7 @@ class TopicController extends Controller
         $inputs = $request->all();
         $user   = $this->auth->user();
 
-        $like = $topicService->deleteLike($user->id, 1);
+        $like = $topicService->deleteLike($user->id, $inputs['topic_id']);
 
         return $like;
     }
