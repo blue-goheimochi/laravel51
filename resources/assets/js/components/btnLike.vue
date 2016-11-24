@@ -21,6 +21,7 @@ module.exports = {
       axios({
         method: method,
         url: '/topic/like',
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
         data: {
           topic_id: $('#topic_id').val()
         }
@@ -36,7 +37,8 @@ module.exports = {
         $(".btn-like").blur()
       })
       .catch(function (error) {
-        alert(error)
+        $(".btn-like").blur()
+        cnosole.log(error)
       });
     }
   }
