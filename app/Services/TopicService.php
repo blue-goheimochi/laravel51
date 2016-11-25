@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\TopicRepositoryInterface;
 use App\Repositories\LikeRepositoryInterface;
+use App\Repositories\CommentRepositoryInterface;
 
 /**
  * Class UserService
@@ -16,14 +17,18 @@ class TopicService
     
     /** @var LikeRepositoryInterface */
     protected $like;
+    
+    /** @var CommentRepositoryInterface */
+    protected $comment;
 
     /**
      * @param TopicRepositoryInterface $topic
      */
-    public function __construct(TopicRepositoryInterface $topic, LikeRepositoryInterface $like)
+    public function __construct(TopicRepositoryInterface $topic, LikeRepositoryInterface $like, CommentRepositoryInterface $comment)
     {
-        $this->topic = $topic;
-        $this->like  = $like;
+        $this->topic   = $topic;
+        $this->like    = $like;
+        $this->comment = $comment;
     }
 
     /**
@@ -94,4 +99,14 @@ class TopicService
        {
          return $this->like->isLiked($user_id, $topic_id);
        }
+       
+    /**
+     * @param array $params
+     * @return \App\DataAccess\Eloquent\Comment
+     */
+    public function createComment(array $params)
+    {
+        $comment = $this->comment->create($params);
+        return $comment;
+    }
 }

@@ -34,3 +34,12 @@ $factory->define(App\DataAccess\Eloquent\Like::class, function (Faker\Generator 
         'topic_id' => $faker->randomDigit(),
     ];
 });
+
+$factory->define(App\DataAccess\Eloquent\Comment::class, function (Faker\Generator $faker) {
+    return [
+        'user_id'  => $faker->randomDigit(),
+        'topic_id' => $faker->randomDigit(),
+        'body'   => $faker->text(),
+        'status' => 1,
+    ];
+});

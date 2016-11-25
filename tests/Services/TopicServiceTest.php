@@ -17,7 +17,8 @@ class TopicServiceTest extends \TestCase
         parent::setUp();
         $this->service = new \App\Services\TopicService(
             new StubTopicServiceRepository,
-            new StubLikeServiceRepository
+            new StubLikeServiceRepository,
+            new StubCommentServiceRepository
         );
     }
 
@@ -86,6 +87,17 @@ class TopicServiceTest extends \TestCase
         $result = $this->service->isLiked($user_id, $topic_id);
 
         $this->assertFalse($result);
+    }
+
+    public function testCreateComment()
+    {
+        $comment = $this->service->createComment([
+            'user_id'  => 1,
+            'topic_id' => 1,
+            'body'     => 'Test Body',
+        ]);
+
+        $this->assertInstanceOf('App\DataAccess\Eloquent\Comment', $comment);
     }
 }
 
@@ -157,5 +169,17 @@ class StubLikeServiceRepository implements \App\Repositories\LikeRepositoryInter
           return false;
         }
         return true;
+    }
+}
+
+class StubCommentServiceRepository implements \App\Repositories\CommentRepositoryInterface
+{
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function create(array $params)
+    {
+        return factory(\App\DataAccess\Eloquent\Comment::class)->make($params);
     }
 }

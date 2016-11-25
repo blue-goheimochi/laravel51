@@ -4,34 +4,29 @@ namespace App\DataAccess\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Topic extends Model
+class Comment extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'topics';
+    protected $table = 'comments';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'title', 'body', 'status'];
+    protected $fillable = ['user_id', 'topic_id', 'parent_comment_id', 'body', 'status'];
 
     public function user()
     {
         return $this->belongsTo('\App\DataAccess\Eloquent\User');
     }
-    
-    public function comments()
+
+    public function topic()
     {
-        return $this->hasMany('\App\DataAccess\Eloquent\Comment')->where('parent_comment_id', null);
-    }
-    
-    public function likes()
-    {
-        return $this->hasMany('\App\DataAccess\Eloquent\Like');
+        return $this->belongsTo('\App\DataAccess\Eloquent\Topic');
     }
 }

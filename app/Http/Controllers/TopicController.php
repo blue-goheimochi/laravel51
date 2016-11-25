@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicCreateRequest;
 use App\Http\Requests\LikeCreateDeleteRequest;
+use App\Http\Requests\CommentCreateRequest;
 use App\Repositories\TopicRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use App\Services\TopicService;
@@ -90,5 +91,25 @@ class TopicController extends Controller
         $like = $topicService->deleteLike($user->id, $inputs['topic_id']);
   
         return $like;
+    }
+  
+    public function createComment(CommentCreateRequest $request, TopicService $topicService)
+    {
+        $inputs = $request->all();
+        $user   = $this->auth->user();
+        
+        $params = [
+            'user_id'  => $user->id,
+            'topic_id' => $inputs['topic_id'],
+            'body'     => $inputs['body'],
+        ];
+        
+        if( isset($inputs['parent_comment_id']) ) {
+            $params['parent_comment_id'] = $inputs['topic_id'];
+        }
+  
+        $comment = $topicService->createComment($params);
+  
+        return $comment->toJson();
     }
 }

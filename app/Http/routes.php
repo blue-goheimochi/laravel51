@@ -33,4 +33,6 @@ Route::post('topic/new', 'TopicController@postNewTopic')->middleware('auth');
 Route::put('topic/like', 'TopicController@createLike');
 Route::delete('topic/like', 'TopicController@deleteLike');
 
+Route::post('topic/comment', 'TopicController@createComment')->middleware('auth');
+
 Route::get('topic/{id}', 'TopicController@getTopic');

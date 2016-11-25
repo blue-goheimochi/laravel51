@@ -35,5 +35,9 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\LikeRepositoryInterface::class,
             \App\Repositories\LikeRepository::class
         );
+        $this->app->bind(
+            \App\Repositories\CommentRepositoryInterface::class,
+            \App\Repositories\CommentRepository::class
+        );
     }
 }
